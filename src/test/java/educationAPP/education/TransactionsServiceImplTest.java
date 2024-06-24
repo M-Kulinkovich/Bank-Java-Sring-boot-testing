@@ -3,7 +3,7 @@ package educationAPP.education;
 import educationAPP.education.dto.TransactionDto;
 import educationAPP.education.model.Transaction;
 import educationAPP.education.repository.TransactionRepository;
-import educationAPP.education.service.TransactionsServiceImpl;
+import educationAPP.education.service.impl.TransactionsServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

@@ -10,6 +10,7 @@ import educationAPP.education.model.Role;
 import educationAPP.education.model.User;
 import educationAPP.education.repository.UserRepository;
 import educationAPP.education.service.*;
+import educationAPP.education.service.impl.UserServiceImpl;
 import educationAPP.education.utils.AccountUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

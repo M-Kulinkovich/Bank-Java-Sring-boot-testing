@@ -1,4 +1,4 @@
-package educationAPP.education.service;
+package educationAPP.education.service.impl;
 
 import educationAPP.education.config.JwtTokenProvider;
 import educationAPP.education.dto.*;
@@ -7,6 +7,8 @@ import educationAPP.education.model.User;
 import educationAPP.education.repository.UserRepository;
 import educationAPP.education.utils.AccountUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final EmailService emailService;
 
     @Override
+    @CachePut (value = "newAccount", key = "#userRequest.id")
     public BankResponse createAccount(UserRequest userRequest) {
         if (userRepository.existsByEmail(userRequest.getEmail())) {
             return buildBankResponse(AccountUtils.ACCOUNT_EXISTS_CODE, AccountUtils.ACCOUNT_EXISTS_MESSAGE, null);
@@ -58,6 +61,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable (value = "balanceAccount", key = "#request.accountNumber")
     public BankResponse balanceEnquiry(EnquiryRequest request) {
         User foundUser = findUserByAccountNumber(request.getAccountNumber());
         if (foundUser == null) {
@@ -69,6 +73,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable (value = "balanceAccount", key = "#request.accountNumber")
     public String nameEnquiry(EnquiryRequest request) {
         User foundUser = findUserByAccountNumber(request.getAccountNumber());
         if (foundUser == null) {
@@ -78,6 +83,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable (value = "balanceAccount", key = "#request.accountNumber")
     public BankResponse creditAccount(CreditDebitRequest request) {
         User userToCredit = findUserByAccountNumber(request.getAccountNumber());
         if (userToCredit == null) {
@@ -94,6 +100,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable (value = "balanceAccount", key = "#request.accountNumber")
     public BankResponse debitAccount(CreditDebitRequest request) {
         User userToDebit = findUserByAccountNumber(request.getAccountNumber());
         if (userToDebit == null) {
@@ -116,6 +123,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable (value = "balanceAccount", key = "#request.accountNumber")
     public BankResponse transfer(TransferRequest request) {
         User sourceAccount = findUserByAccountNumber(request.getSourceAccountNumber());
         User destinationAccount = findUserByAccountNumber(request.getDestinationAccountNumber());
