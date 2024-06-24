@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  app:
+    image: my-java-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/YOU_DB_NAME
+      SPRING_DATASOURCE_USERNAME: YOU_USERNAME
+      SPRING_DATASOURCE_PASSWORD: YOU_PASS_DB
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_MAIL_HOST: smtp.gmail.com
+      SPRING_MAIL_PORT: 587
+      SPRING_MAIL_USERNAME: yourmail@gmail.com
+      SPRING_MAIL_PASSWORD: your_mail_pass
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: true
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: true
+      APP_JWT_SECRET: "ZsxvRWVWrJj/s/24FJLXlhqO9QiOj760LdLK8/hMlFoY5sKrq9fqGYcXdnOI9jTk"
+      APP_JWT_EXPIRATION: 86400000
+    depends_on:
+      - postgres
+    networks:
+      - my-network
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: Library
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
